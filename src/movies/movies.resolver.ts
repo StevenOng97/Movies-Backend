@@ -10,7 +10,9 @@ export class MoviesResolver {
   constructor(private moviesService: MoviesService) {}
 
   @Query((returns) => [Movie])
-  getMovies(@Args('page', { type: () => Int, nullable: true }) page: number): Observable<AxiosResponse<Movie[]>> {
+  getMovies(
+    @Args('page', { type: () => Int, nullable: true }) page: number,
+  ): Observable<AxiosResponse<Movie[]>> {
     return this.moviesService.getMovies(page);
   }
 
@@ -21,10 +23,9 @@ export class MoviesResolver {
     with_genres: number,
     @Args('page', { type: () => Int, nullable: true }) page: number,
   ): Observable<AxiosResponse<Movie[]>> {
-    return this.moviesService.getMoviesWithFilters({ query, with_genres, page });
+    const filters = { query, with_genres, page };
+    return this.moviesService.getMoviesWithFilters(filters);
   }
-
-
 
   @Query((returns) => [Movie])
   getMoviesFilteredByGenres(

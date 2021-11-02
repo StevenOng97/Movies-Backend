@@ -8,20 +8,24 @@ import { MoviesFilter } from './filter.model';
 
 @Injectable()
 export class MoviesService {
-  constructor(private httpService: HttpService){}
-  
+  constructor(private httpService: HttpService) {}
+
   getMovies(page: Number = 1): Observable<AxiosResponse<Movie[]>> {
     const { mainUrl, API_KEY } = constants;
 
     const endpoint = `${mainUrl}/movie/popular?api_key=${API_KEY}&page=${page}`;
-    return this.httpService.get(endpoint).pipe(map((res) => {
-      return res.data.results;
-    }))
+    return this.httpService.get(endpoint).pipe(
+      map((res) => {
+        return res.data.results;
+      }),
+    );
   }
 
-  getMoviesWithFilters(moviesFilter: MoviesFilter): Observable<AxiosResponse<Movie[]>>{
+  getMoviesWithFilters(
+    moviesFilter: MoviesFilter,
+  ): Observable<AxiosResponse<Movie[]>> {
     const { query, with_genres, page } = moviesFilter;
-    
+
     const { mainUrl, API_KEY } = constants;
 
     const queryParam = query ? `&with_text_query=${query}` : '';
@@ -30,9 +34,11 @@ export class MoviesService {
 
     const endpoint = `${mainUrl}/discover/movie?api_key=${API_KEY}${pageParam}${withGenresParams}${queryParam}`;
 
-    return this.httpService.get(endpoint).pipe(map((res) => {
-      return res.data.results;
-    }))
+    return this.httpService.get(endpoint).pipe(
+      map((res) => {
+        return res.data.results;
+      }),
+    );
   }
 
   getMoviesFilteredByGenres(genresId: number): Promise<Movie[]> {

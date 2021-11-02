@@ -27,6 +27,12 @@ export class Movie {
   @Field()
   popularity?: number;
 
+  @Field()
+  backdrop_path?: string;
+
+  @Field()
+  poster_path?: string;
+  
   @Field({ nullable: true })
   release_date?: string;
 
